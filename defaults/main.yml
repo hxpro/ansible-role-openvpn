@@ -1,0 +1,26 @@
+---
+ovpn_name: 'server'
+
+ovpn_port: 1194
+ovpn_proto: udp
+ovpn_user: openvpn
+ovpn_group: openvpn
+ovpn_max_clients: 30
+
+ovpn_log: "/var/log/openvpn.{{ ovpn_name }}"
+ovpn_verb: 1
+
+ovpn_ca: "{{ ovpn_name }}_ca.pem"
+ovpn_cert: "{{ ovpn_name }}.crt"
+ovpn_key: "{{ ovpn_name }}.key"
+ovpn_dh: dh.pem
+
+ovpn_push: []
+
+ovpn_server_ip: 192.168.5.1
+ovpn_netmask: 255.255.255.0
+ovpn_ip_pool_start: 192.168.5.100
+ovpn_ip_pool_end: 192.168.5.200
+
+ovpn_ipv4_forwarding: true
+# TODO ovpn_ipv6_forwarding: true

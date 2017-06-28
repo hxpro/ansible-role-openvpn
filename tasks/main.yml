@@ -1,0 +1,56 @@
+---
+- name: Install packages
+  package: name={{ item }} state=installed
+  with_items:
+    - openvpn
+
+- name: Server configuration
+  template:
+    src: server.conf.j2
+    dest: "/etc/openvpn/server/{{ ovpn_name }}.conf"
+    owner: "{{ ovpn_user }}"
+    group: "{{ ovpn_group }}"
+    mode: 0600
+  notify: ovpn restart
+
+- seport:
+    ports: "{{ ovpn_port }}"
+    proto: "{{ ovpn_proto }}"
+    setype: openvpn_port_t
+    state: present
+  when: selinux
+
+- sysctl:
+    name: net.ipv4.ip_forward
+    sysctl_file: /etc/sysctl.d/90-ovpn.conf
+    value: '{{ ovpn_ipv4_forwarding }}'
+    sysctl_set: yes
+    state: present
+    reload: yes
+
+# TODO ipv6
+#- sysctl:
+#    name: net.ipv6.conf.all.forwarding
+#    sysctl_file: /etc/sysctl.d/90-ovpn.conf
+#    value: '{{ ovpn_ipv6_forwarding }}'
+#    sysctl_set: yes
+#    state: present
+#    reload: yes
+
+- name: Generate dhparam
+  command: openssl dhparam -out {{ ovpn_home ~ ovpn_dh }} 2048
+    creates='{{ ovpn_home ~ ovpn_dh }}'
+
+- name: Firewall rule
+  iptables:
+    chain: INPUT
+    action: insert
+    protocol: "{{ ovpn_proto }}"
+    destination_port: "{{ ovpn_port }}"
+    jump: ACCEPT
+
+- name: Server service
+  systemd:
+    name: "openvpn-server@{{ ovpn_name }}.service"
+    enabled: yes
+    state: started

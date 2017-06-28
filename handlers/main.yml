@@ -1,0 +1,5 @@
+---
+- name: ovpn restart
+  systemd:
+    name: "openvpn-server@{{ ovpn_name }}.service"
+    state: restarted

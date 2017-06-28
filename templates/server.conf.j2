@@ -1,0 +1,39 @@
+mode server
+tls-server
+dev tap0
+port {{ ovpn_port }}
+proto {{ 'tcp-server' if (ovpn_proto in ['tcp', 'tcp-server']) else 'udp' }}
+
+ifconfig {{ ovpn_server_ip }} {{ ovpn_netmask }}
+ifconfig-pool {{ ovpn_ip_pool_start }} {{ ovpn_ip_pool_end }} {{ ovpn_netmask }}
+
+ca {{ ovpn_ca }}
+cert {{ ovpn_cert }}
+key {{ ovpn_key }}
+dh {{ ovpn_dh }}
+
+log-append {{ ovpn_log }}
+
+status /var/run/ovpn.status 1
+status-version 3
+
+#client-config-dir /etc/openvpn/users
+#ifconfig-pool-persist ipp.txt
+
+client-to-client
+max-clients {{ ovpn_max_clients }}
+ping-timer-rem
+keepalive 10 60
+duplicate-cn
+
+#persist-key
+#persist-tun
+
+{% for push in ovpn_push %}
+push "{{ push }}"
+{% endfor %}
+
+user {{ ovpn_user }}
+group {{ ovpn_group }}
+comp-lzo
+verb {{ ovpn_verb | int }}
