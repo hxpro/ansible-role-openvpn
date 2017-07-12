@@ -18,6 +18,7 @@ Role Variables
 
     ovpn_port: 1194
     ovpn_proto: udp
+    ovpn_device: tun
     ovpn_user: openvpn
     ovpn_group: openvpn
     ovpn_max_clients: 30
@@ -32,13 +33,11 @@ Role Variables
     ovpn_dh: dh.pem
 
     ovpn_push:
-      - "route 192.168.0.0 255.255.255.0 192.168.5.1"
-      - "dhcp-option DNS 192.168.5.1"
+      - "route 192.168.0.0 255.255.255.0"
+      - "dhcp-option DNS 192.168.0.1"
     
-    ovpn_server_ip: 192.168.5.1
-    ovpn_netmask: 255.255.255.0
-    ovpn_ip_pool_start: 192.168.5.100
-    ovpn_ip_pool_end: 192.168.5.200
+    ovpn_server_network: 192.168.5.0
+    ovpn_server_netmask: 255.255.255.0
     
     ovpn_ipv4_forwarding: true
 

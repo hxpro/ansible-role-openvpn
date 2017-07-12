@@ -1,11 +1,10 @@
 mode server
 tls-server
-dev tap0
+dev {{ ovpn_device }}
 port {{ ovpn_port }}
 proto {{ 'tcp-server' if (ovpn_proto in ['tcp', 'tcp-server']) else 'udp' }}
 
-ifconfig {{ ovpn_server_ip }} {{ ovpn_netmask }}
-ifconfig-pool {{ ovpn_ip_pool_start }} {{ ovpn_ip_pool_end }} {{ ovpn_netmask }}
+server {{ ovpn_server_network }} {{ ovpn_server_netmask }}
 
 ca {{ ovpn_ca }}
 cert {{ ovpn_cert }}
