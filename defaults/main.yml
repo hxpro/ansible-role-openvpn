@@ -11,14 +11,22 @@ ovpn_max_clients: 30
 ovpn_log: "/var/log/openvpn.{{ ovpn_name }}"
 ovpn_verb: 1
 
-ovpn_ca: "{{ ovpn_name }}_ca.pem"
-ovpn_cert: "{{ ovpn_name }}.crt"
-ovpn_key: "{{ ovpn_name }}.key"
-ovpn_dh: dh.pem
+ovpn_duplicate_cn: true
+
+# ovpn_ca
+# ovpn_cert
+# ovpn_key
+# ovpn_dh
+
+ovpn_client_connect: false
+ovpn_client_disconnect: false
+ovpn_auth_user_pass_verify: false
+ovpn_up: false
+ovpn_down: false
 
 ovpn_push: []
 
-ovpn_server_network: 192.168.5.0
+# ovpn_server_network: 192.168.5.0
 ovpn_server_netmask: 255.255.255.0
 
 ovpn_ipv4_forwarding: true

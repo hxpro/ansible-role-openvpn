@@ -25,11 +25,10 @@ Role Variables
     
     ovpn_log: /var/log/openvpn
     ovpn_verb: 1
-    
-    ovpn_home: /etc/openvpn/server/
-    ovpn_ca: ca.pem
-    ovpn_cert: server.crt
-    ovpn_key: server.key
+
+    ovpn_ca: "{{ lookup('file', 'ca.pem') }}"
+    ovpn_cert: "{{ lookup('file', 'server.pem') }}"
+    ovpn_key: "{{ lookup('file', 'key.pem') }}"
     ovpn_dh: dh.pem
 
     ovpn_push:
@@ -38,6 +37,11 @@ Role Variables
     
     ovpn_server_network: 192.168.5.0
     ovpn_server_netmask: 255.255.255.0
+
+    # ifconfig local-IP [netmask]     
+    ovpn_ifconfig: 192.168.5.1 255.255.255.0
+    # ifconfig-pool start-IP end-IP [netmask]
+    ovpn_ifconfig_pool: 192.168.5.100 192.168.5.254 255.255.255.0
     
     ovpn_ipv4_forwarding: true
 

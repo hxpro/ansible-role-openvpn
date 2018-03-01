@@ -1,15 +1,25 @@
+{{ ansible_managed | comment }}
+
 mode server
 tls-server
 dev {{ ovpn_device }}
 port {{ ovpn_port }}
 proto {{ 'tcp-server' if (ovpn_proto in ['tcp', 'tcp-server']) else 'udp' }}
 
+{% if ovpn_server_network is defined %}
 server {{ ovpn_server_network }} {{ ovpn_server_netmask }}
+{% endif %}
+{% if ovpn_ifconfig is defined %}
+ifconfig {{ ovpn_ifconfig }}
+{% endif %}
+{% if ovpn_ifconfig_pool is defined %}
+ifconfig-pool {{ ovpn_ifconfig_pool }}
+{% endif %}
 
-ca {{ ovpn_ca }}
-cert {{ ovpn_cert }}
-key {{ ovpn_key }}
-dh {{ ovpn_dh }}
+ca {{ ovpn_name }}_ca.pem
+cert {{ ovpn_name }}.crt
+key {{ ovpn_name }}.key
+dh {{ ovpn_name }}_dh.pem
 
 log-append {{ ovpn_log }}
 
@@ -23,7 +33,9 @@ client-to-client
 max-clients {{ ovpn_max_clients }}
 ping-timer-rem
 keepalive 10 60
+{% if ovpn_duplicate_cn | bool %}
 duplicate-cn
+{% endif %}
 
 #persist-key
 #persist-tun
@@ -36,3 +48,14 @@ user {{ ovpn_user }}
 group {{ ovpn_group }}
 comp-lzo
 verb {{ ovpn_verb | int }}
+
+script-security 3
+{% if ovpn_client_connect %}
+client-connect "{{ ovpn_client_connect }}"
+{% endif %}
+{% if ovpn_client_disconnect %}
+client-disconnect "{{ ovpn_client_disconnect }}"
+{% endif %}
+{% if ovpn_auth_user_pass_verify %}
+auth-user-pass-verify "{{ ovpn_auth_user_pass_verify }}" via-env
+{% endif %}

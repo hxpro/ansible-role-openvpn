@@ -7,7 +7,7 @@
 - name: Server configuration
   template:
     src: server.conf.j2
-    dest: "/etc/openvpn/server/{{ ovpn_name }}.conf"
+    dest: "{{ ovpn_home ~ ovpn_name }}.conf"
     owner: "{{ ovpn_user }}"
     group: "{{ ovpn_group }}"
     mode: 0600
@@ -38,8 +38,35 @@
 #    reload: yes
 
 - name: Generate dhparam
-  command: openssl dhparam -out {{ ovpn_home ~ ovpn_dh }} 2048
-    creates='{{ ovpn_home ~ ovpn_dh }}'
+  command: openssl dhparam -out {{ ovpn_home ~ ovpn_name }}_dh.pem 2048
+    creates='{{ ovpn_home ~ ovpn_name }}_dh.pem'
+  when: ovpn_dh is not defined
+
+- name: DH
+  copy:
+    content: "{{ ovpn_dh }}"
+    dest: "{{ ovpn_home ~ ovpn_name }}_dh.pem"
+  when: ovpn_dh is defined
+
+# TODO generate CA, key, cert if not defined and not present on the server
+
+- name: CA
+  copy:
+    content: "{{ ovpn_ca }}"
+    dest: "{{ ovpn_home ~ ovpn_name }}_ca.pem"
+  when: ovpn_ca is defined
+
+- name: key
+  copy:
+    content: "{{ ovpn_key }}"
+    dest: "{{ ovpn_home ~ ovpn_name }}.key"
+  when: ovpn_key is defined
+
+- name: cert
+  copy:
+    content: "{{ ovpn_cert }}"
+    dest: "{{ ovpn_home ~ ovpn_name }}.crt"
+  when: ovpn_cert is defined
 
 - name: Firewall rule
   iptables:
