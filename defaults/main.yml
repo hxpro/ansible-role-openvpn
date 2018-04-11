@@ -1,6 +1,7 @@
 ---
 ovpn_name: 'server'
 
+ovpn_tls_server: true
 ovpn_port: 1194
 ovpn_device: tun
 ovpn_proto: udp
@@ -11,6 +12,13 @@ ovpn_max_clients: 30
 ovpn_log: "/var/log/openvpn.{{ ovpn_name }}"
 ovpn_verb: 1
 
+# ovpn_compress: lzo
+# ovpn_auth: none
+
+ovpn_status_file: "/var/run/ovpn_{{ ovpn_name }}.status"
+ovpn_status_refresh: 1
+ovpn_status_version: 3
+
 ovpn_duplicate_cn: true
 
 # ovpn_ca
@@ -18,9 +26,12 @@ ovpn_duplicate_cn: true
 # ovpn_key
 # ovpn_dh
 
+ovpn_client_to_client: true
+
 ovpn_client_connect: false
 ovpn_client_disconnect: false
 ovpn_auth_user_pass_verify: false
+
 ovpn_up: false
 ovpn_down: false
 
@@ -31,3 +42,6 @@ ovpn_server_netmask: 255.255.255.0
 
 ovpn_ipv4_forwarding: true
 # TODO ovpn_ipv6_forwarding: true
+
+ovpn_persist_key: false
+ovpn_persist_tun: false

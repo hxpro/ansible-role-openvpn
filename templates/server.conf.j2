@@ -1,7 +1,9 @@
 {{ ansible_managed | comment }}
 
 mode server
+{% if ovpn_tls_server | bool %}
 tls-server
+{% endif %}
 dev {{ ovpn_device }}
 port {{ ovpn_port }}
 proto {{ 'tcp-server' if (ovpn_proto in ['tcp', 'tcp-server']) else 'udp' }}
@@ -23,32 +25,45 @@ dh {{ ovpn_name }}_dh.pem
 
 log-append {{ ovpn_log }}
 
-status /var/run/ovpn.status 1
-status-version 3
+status {{ ovpn_status_file }} {{ ovpn_status_refresh | int }}
+status-version {{ ovpn_status_version }}
 
-#client-config-dir /etc/openvpn/users
+{% if ovpn_client_config_dir is defined %}
+client-config-dir {{ ovpn_client_config_dir }}
+{% endif %}
 #ifconfig-pool-persist ipp.txt
 
+{% if ovpn_client_to_client | bool %}
 client-to-client
+{% endif %}
 max-clients {{ ovpn_max_clients }}
 ping-timer-rem
 keepalive 10 60
 {% if ovpn_duplicate_cn | bool %}
 duplicate-cn
 {% endif %}
-
-#persist-key
-#persist-tun
-
+{% if ovpn_persist_key | bool %}
+persist-key
+{% endif %}
+{% if ovpn_persist_tun | bool %}
+persist-tun
+{% endif %}
 {% for push in ovpn_push %}
 push "{{ push }}"
 {% endfor %}
 
 user {{ ovpn_user }}
 group {{ ovpn_group }}
-comp-lzo
+{% if ovpn_compress is defined %}
+compress {{ ovpn_compress }}
+{% endif %}
 verb {{ ovpn_verb | int }}
-
+{% if ovpn_auth is defined %}
+auth {{ ovpn_auth }}
+{% endif %}
+{% if ovpn_cipher is defined %}
+cipher {{ ovpn_cipher }}
+{% endif %}
 script-security 3
 {% if ovpn_client_connect %}
 client-connect "{{ ovpn_client_connect }}"

@@ -37,6 +37,12 @@
 #    state: present
 #    reload: yes
 
+- name: ccd dir
+  file:
+    path: "{{ openvpn_client_config_dir }}"
+    state: directory
+  when: openvpn_client_config_dir is defined
+
 - name: Generate dhparam
   command: openssl dhparam -out {{ ovpn_home ~ ovpn_name }}_dh.pem 2048
     creates='{{ ovpn_home ~ ovpn_name }}_dh.pem'
