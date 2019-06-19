@@ -18,7 +18,7 @@
     proto: "{{ ovpn_proto }}"
     setype: openvpn_port_t
     state: present
-  when: selinux
+  when: selinux|bool
 
 - sysctl:
     name: net.ipv4.ip_forward
