@@ -23,7 +23,7 @@
 - sysctl:
     name: net.ipv4.ip_forward
     sysctl_file: /etc/sysctl.d/90-ovpn.conf
-    value: '{{ ovpn_ipv4_forwarding }}'
+    value: '{{ ovpn_ipv4_forwarding | bool | string }}'
     sysctl_set: yes
     state: present
     reload: yes
@@ -79,7 +79,7 @@
     chain: INPUT
     action: insert
     protocol: "{{ ovpn_proto }}"
-    destination_port: "{{ ovpn_port }}"
+    destination_port: "{{ ovpn_port | int | string }}"
     jump: ACCEPT
 
 - name: Server service
