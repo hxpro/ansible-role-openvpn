@@ -71,6 +71,8 @@ Role Variables
     ovpn_persist_key: false
     ovpn_persist_tun: false
 
+    ovpn_username_as_common_name: false
+    ovpn_auth_user_pass_optional: false
 
 Dependencies
 ------------

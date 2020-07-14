@@ -74,3 +74,9 @@ client-disconnect "{{ ovpn_client_disconnect }}"
 {% if ovpn_auth_user_pass_verify %}
 auth-user-pass-verify "{{ ovpn_auth_user_pass_verify }}" via-env
 {% endif %}
+{% if ovpn_username_as_common_name | bool %}
+username-as-common-name
+{% endif %}
+{% if ovpn_auth_user_pass_optional | bool %}
+auth-user-pass-optional
+{% endif %}
