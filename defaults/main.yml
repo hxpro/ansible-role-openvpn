@@ -14,6 +14,7 @@ ovpn_verb: 1
 
 # ovpn_compress: lzo
 # ovpn_auth: none
+# ovpn_cipher: BF-CBC
 
 ovpn_status_file: "/var/run/ovpn_{{ ovpn_name }}.status"
 ovpn_status_refresh: 1
@@ -32,6 +33,7 @@ ovpn_client_connect: false
 ovpn_client_disconnect: false
 ovpn_auth_user_pass_verify: false
 
+ovpn_up_restart: false
 ovpn_up: false
 ovpn_down: false
 
@@ -40,8 +42,13 @@ ovpn_push: []
 # ovpn_server_network: 192.168.5.0
 ovpn_server_netmask: 255.255.255.0
 
+# ovpn_ifconfig: 192.168.5.1 255.255.255.0
+# ovpn_ifconfig_pool: 192.168.5.100 192.168.5.254 255.255.255.0
+
 ovpn_ipv4_forwarding: true
 # TODO ovpn_ipv6_forwarding: true
+
+# ovpn_client_config_dir: /etc/openvpn/server/ccd
 
 ovpn_persist_key: false
 ovpn_persist_tun: false

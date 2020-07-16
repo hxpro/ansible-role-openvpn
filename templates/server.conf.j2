@@ -38,7 +38,7 @@ client-to-client
 {% endif %}
 max-clients {{ ovpn_max_clients }}
 ping-timer-rem
-keepalive 10 60
+keepalive 10 50
 {% if ovpn_duplicate_cn | bool %}
 duplicate-cn
 {% endif %}
@@ -79,4 +79,13 @@ username-as-common-name
 {% endif %}
 {% if ovpn_auth_user_pass_optional | bool %}
 auth-user-pass-optional
+{% endif %}
+{% if ovpn_up_restart | bool %}
+up-restart
+{% endif %}
+{% if ovpn_up %}
+up "{{ ovpn_up }}"
+{% endif %}
+{% if ovpn_down %}
+down "{{ ovpn_down }}"
 {% endif %}

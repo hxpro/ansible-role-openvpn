@@ -53,6 +53,14 @@ Role Variables
 
     ovpn_client_to_client: true
 
+    ovpn_client_connect: false
+    ovpn_client_disconnect: false
+    ovpn_auth_user_pass_verify: false
+
+    ovpn_up_restart: false
+    ovpn_up: false
+    ovpn_down: false
+
     ovpn_push:
       - "route 192.168.0.0 255.255.255.0"
       - "dhcp-option DNS 192.168.0.1"
