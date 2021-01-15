@@ -1,5 +1,6 @@
 galaxy_info:
   author: Matěj Koudelka
+  role_name: openvpn
   description: OpenVPN Server
 
   license: license (WTFPL)
