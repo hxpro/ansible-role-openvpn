@@ -25,9 +25,6 @@ dh {{ ovpn_name }}_dh.pem
 
 log-append {{ ovpn_log }}
 
-status {{ ovpn_status_file }} {{ ovpn_status_refresh | int }}
-status-version {{ ovpn_status_version }}
-
 {% if ovpn_client_config_dir is defined %}
 client-config-dir {{ ovpn_client_config_dir }}
 {% endif %}

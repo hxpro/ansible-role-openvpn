@@ -40,10 +40,6 @@ Role Variables
     # set none to disable encryption
     ovpn_cipher: BF-CBC
 
-    ovpn_status_file: "/var/run/ovpn_{{ ovpn_name }}.status"
-    ovpn_status_refresh: 1
-    ovpn_status_version: 3
-
     ovpn_duplicate_cn: true
 
     ovpn_ca: "{{ lookup('file', 'ca.pem') }}"
