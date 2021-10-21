@@ -52,6 +52,9 @@
   copy:
     content: |
       {{ ovpn_dh }}
+    owner: "{{ ovpn_user }}"
+    group: "{{ ovpn_group }}"
+    mode: "0600"
     dest: "{{ ovpn_home ~ ovpn_name }}_dh.pem"
   when: ovpn_dh is defined
 
@@ -61,6 +64,9 @@
   copy:
     content: |
       {{ ovpn_ca }}
+    owner: "{{ ovpn_user }}"
+    group: "{{ ovpn_group }}"
+    mode: "0600"
     dest: "{{ ovpn_home ~ ovpn_name }}_ca.pem"
   when: ovpn_ca is defined
 
@@ -68,6 +74,9 @@
   copy:
     content: |
       {{ ovpn_key }}
+    owner: "{{ ovpn_user }}"
+    group: "{{ ovpn_group }}"
+    mode: "0600"
     dest: "{{ ovpn_home ~ ovpn_name }}.key"
   when: ovpn_key is defined
 
@@ -75,6 +84,9 @@
   copy:
     content: |
       {{ ovpn_cert }}
+    owner: "{{ ovpn_user }}"
+    group: "{{ ovpn_group }}"
+    mode: "0600"
     dest: "{{ ovpn_home ~ ovpn_name }}.crt"
   when: ovpn_cert is defined
 
